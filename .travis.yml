@@ -8,13 +8,13 @@ matrix:
     - perl: "5.21"
       env: STERILIZE_ENV=0 COVERAGE_TESTING=1
     - perl: "5.21"
-      env:  STERILIZE_ENV=1
+      env:  STERILIZE_ENV=1 SPELL=aspell
     - perl: "5.8"
-      env:  STERILIZE_ENV=0
+      env:  STERILIZE_ENV=0 SPELL=ispell
     - perl: "5.10"
-      env:  STERILIZE_ENV=0
+      env:  STERILIZE_ENV=0 SPELL=hunspell
     - perl: "5.12"
-      env:  STERILIZE_ENV=0
+      env:  STERILIZE_ENV=0 SPELL=spell
     - perl: "5.14"
       env:  STERILIZE_ENV=0
     - perl: "5.16"
@@ -40,6 +40,7 @@ before_install:
   - time perl ./maint-travis-ci/branch_reset.pl
   - time perl ./maint-travis-ci/sterilize_env.pl
 install:
+  - [[ -n $SPELL ]] && time sudo apt-get install $SPELL
   - time perl ./maint-travis-ci/install_deps_early.pl
   - time perl ./maint-travis-ci/install_deps.pl
 before_script:
