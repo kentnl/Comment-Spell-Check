@@ -12,6 +12,11 @@ use Test::More;
 use Comment::Spell::Check;
 
 my $check = Comment::Spell::Check->new();
+local $@;
+eval { $check->spell_command; 1 } or do {
+  plan skip_all => "No automatic spell checker detection supported: $@";
+  exit;
+};
 my $out;
 $check->set_output_string($out);
 my $data = $check->parse_from_file($0);
