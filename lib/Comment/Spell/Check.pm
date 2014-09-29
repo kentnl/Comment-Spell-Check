@@ -104,7 +104,6 @@ sub _handle_comment {
   my $fail = {
     line   => $comment->line_number,
     counts => \%counts,
-    words  => [ sort keys %counts ],
   };
   push @{ $self->{fails} }, $fail;
   my $label = sprintf 'line %6s: ', '#' . $comment->line_number;
@@ -140,6 +139,70 @@ Comment::Spell::Check - Check words from Comment::Spell vs a system spell checke
 =head1 VERSION
 
 version 0.001000
+
+=head1 SYNOPSIS
+
+  # Spelling report to STDOUT by default
+  perl -MComment::Spell::Check -E'Comment::Spell::Check->new->parse_from_file(q[Foo.pm])'
+
+  # Advanced Usage
+  
+  my $speller = Comment::Spell::Check->new(
+    spell_command_exec => 'aspell'  # override auto-detected default spelling engine 
+    spell_command_args => [ '--lang=en_GB' ], # pass additional commands to spell checker
+  );
+
+  my $buf;
+  $speller->set_output_string($buf);
+  my $result = $speller->parse_from_file("path/to/File.pm");
+  # $buf now contains report
+  # $result contains structured data that could be useful 
+  # Example:
+  # {
+  #   'counts' => {
+  #     'abstraktion' => 4,
+  #     'bsaic' => 1,
+  #     'hmubug' => 2,
+  #     'incpetion' => 1,
+  #     'kepe' => 1,
+  #     'ssshtuff' => 1,
+  #     'thsi' => 1,
+  #     'tset' => 1,
+  #     'voreflow' => 1,
+  #     'warppying' => 1,
+  #     'wrods' => 1
+  #   },
+  #   'fails' => [
+  #     {
+  #       'counts' => {
+  #         'abstraktion' => 1
+  #       },
+  #       'line' => 8
+  #     },
+  #     {
+  #       'counts' => {
+  #         'abstraktion' => 2
+  #       },
+  #       'line' => 9
+  #     },
+  #     {
+  #       'counts' => {
+  #         'abstraktion' => 1,
+  #         'bsaic' => 1,
+  #         'hmubug' => 2,
+  #         'incpetion' => 1,
+  #         'kepe' => 1,
+  #         'ssshtuff' => 1,
+  #         'thsi' => 1,
+  #         'tset' => 1,
+  #         'voreflow' => 1,
+  #         'warppying' => 1,
+  #         'wrods' => 1
+  #       },
+  #       'line' => 10
+  #     }
+  #   ]
+  # }
 
 =head1 AUTHOR
 
