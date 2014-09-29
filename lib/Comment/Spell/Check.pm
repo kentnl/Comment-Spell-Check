@@ -15,6 +15,7 @@ use Carp qw( croak carp );
 use Devel::CheckBin qw( can_run );
 use IPC::Run qw( run timeout );
 use Text::Wrap qw( wrap );
+use File::Spec;
 
 extends 'Comment::Spell';
 
@@ -36,7 +37,7 @@ sub _build_spell_command_base_args {
   my $cmd      = $self->spell_command_exec;
   my $defaults = {
     'spell'    => [],
-    'aspell'   => [ 'list', '-l', 'en', '-p', '/dev/null', ],
+    'aspell'   => [ 'list', '-l', 'en', '-p', File::Spec->devnull, ],
     'ispell'   => [ '-l', ],
     'hunspell' => [ '-l', ],
   };
@@ -57,13 +58,17 @@ sub _spell_text {
   my ( $self, $text ) = @_;
   my @badwords;
   my @command = @{ $self->spell_command };
-  my $ok      = eval {
+  local $@;
+  my $ok = eval {
     my ( $results, $errors );
     run \@command, \$text, \$results, \$errors, timeout(10);
     @badwords = split /\n/, $results;
     croak 'spellchecker had errors: ' . $errors if length $errors;
     1;
   };
+  if ( not $ok ) {
+    carp $@;
+  }
   chomp for @badwords;
   return @badwords;
 }

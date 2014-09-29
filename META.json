@@ -85,6 +85,7 @@
             "Carp" : "0",
             "Comment::Spell" : "0",
             "Devel::CheckBin" : "0",
+            "File::Spec" : "0",
             "IPC::Run" : "0",
             "Moo" : "0",
             "Text::Wrap" : "0",
