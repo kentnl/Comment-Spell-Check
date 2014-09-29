@@ -28,7 +28,7 @@ sub _build_spell_command_exec {
   for my $candidate (qw( spell aspell ispell hunspell )) {
     return $candidate if can_run($candidate);
   }
-  croak "Cant determine a spell checker automatically";
+  croak 'Cant determine a spell checker automatically';
 }
 
 sub _build_spell_command_base_args {
