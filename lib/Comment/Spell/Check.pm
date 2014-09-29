@@ -112,7 +112,7 @@ sub _handle_comment {
     counts => \%counts,
   };
   push @{ $self->{fails} }, $fail;
-  my $label = sprintf 'line %6s: ', '#' . $comment->line_number;
+  my $label = sprintf q[line %6s: ], q[#] . $comment->line_number;
   my $indent = q[ ] x 13;
   local $Text::Wrap::huge = 'overflow';
   my @printwords;
