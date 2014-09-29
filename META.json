@@ -114,6 +114,17 @@
       }
    },
    "release_status" : "stable",
+   "resources" : {
+      "bugtracker" : {
+         "web" : "https://github.com/kentnl/Comment-Spell-Check/issues"
+      },
+      "homepage" : "https://github.com/kentnl/Comment-Spell-Check",
+      "repository" : {
+         "type" : "git",
+         "url" : "https://github.com/kentnl/Comment-Spell-Check.git",
+         "web" : "https://github.com/kentnl/Comment-Spell-Check"
+      }
+   },
    "version" : "0.001000",
    "x_BuiltWith" : {
       "modules" : {
