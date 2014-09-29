@@ -80,7 +80,7 @@ around 'parse_from_document' => sub {
   local $self->{counts} = \%counts;    ## no critic (Variables::ProhibitLocalVars)
 
   $document->index_locations;
-  my $rval = $self->$orig( $document, @rest );
+  $self->$orig( $document, @rest );
 
   if ( keys %counts ) {
 
@@ -126,6 +126,7 @@ sub _handle_comment {
   }
   $self->_print_output( wrap( $label, $indent, join q[ ], @printwords ) );
   $self->_print_output(qq[\n]);
+  return;
 }
 
 no Moo;
