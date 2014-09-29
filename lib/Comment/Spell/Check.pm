@@ -140,7 +140,13 @@ Comment::Spell::Check - Check words from Comment::Spell vs a system spell checke
 
 version 0.001000
 
-=head1 SYNOPSIS
+=head1 OVERVIEW
+
+This module is similar to Test::Spelling and Pod::Spell, except it uses Comment::Spell,
+and is more oriented for use as a library, that could be used to write a test.
+
+It also does something neither Test::Spelling or Pod::Spell presently can do: report line numbers
+and per-line error counts for each source file read.
 
   # Spelling report to STDOUT by default
   perl -MComment::Spell::Check -E'Comment::Spell::Check->new->parse_from_file(q[Foo.pm])'
@@ -203,6 +209,9 @@ version 0.001000
   #     }
   #   ]
   # }
+
+I may eventually work out how to bolt line number parsing into Pod::Spell family, but at
+present its hard due to the Pod::Parser underpinnings.
 
 =head1 AUTHOR
 
