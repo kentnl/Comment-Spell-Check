@@ -114,7 +114,7 @@ sub _handle_comment {
   push @{ $self->{fails} }, $fail;
   my $label = sprintf q[line %6s: ], q[#] . $comment->line_number;
   my $indent = q[ ] x 13;
-  local $Text::Wrap::huge = 'overflow';
+  local $Text::Wrap::huge = 'overflow';    ## no critic (Variables::ProhibitPackageVars)
   my @printwords;
 
   for my $key ( sort keys %counts ) {
