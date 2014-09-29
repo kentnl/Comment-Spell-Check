@@ -32,8 +32,7 @@ sub _build_spell_command_exec {
       if can_run($candidate);
   }
   return croak <<"EOF";
-Cant determine a spell checker automatically.
-Make sure one of: @candidates are installed or configure manually.
+Cant determine a spell checker automatically. Make sure one of: @candidates are installed or configure manually.
 EOF
 }
 
