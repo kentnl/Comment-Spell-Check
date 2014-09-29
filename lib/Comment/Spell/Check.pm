@@ -159,9 +159,9 @@ and per-line error counts for each source file read.
   perl -MComment::Spell::Check -E'Comment::Spell::Check->new->parse_from_file(q[Foo.pm])'
 
   # Advanced Usage
-  
+
   my $speller = Comment::Spell::Check->new(
-    spell_command_exec => 'aspell'  # override auto-detected default spelling engine 
+    spell_command_exec => 'aspell'  # override auto-detected default spelling engine
     spell_command_args => [ '--lang=en_GB' ], # pass additional commands to spell checker
   );
 
@@ -169,7 +169,7 @@ and per-line error counts for each source file read.
   $speller->set_output_string($buf);
   my $result = $speller->parse_from_file("path/to/File.pm");
   # $buf now contains report
-  # $result contains structured data that could be useful 
+  # $result contains structured data that could be useful
   # Example:
   # {
   #   'counts' => {
