@@ -62,7 +62,7 @@ sub _spell_text {
   my $ok = eval {
     my ( $results, $errors );
     run \@command, \$text, \$results, \$errors, timeout(10);
-    @badwords = split /\n/, $results;
+    @badwords = split /\n/msx, $results;
     croak 'spellchecker had errors: ' . $errors if length $errors;
     1;
   };
