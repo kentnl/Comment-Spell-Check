@@ -75,9 +75,10 @@ sub _spell_text {
 
 around 'parse_from_document' => sub {
   my ( $orig, $self, $document, @rest ) = @_;
-  local $self->{fails} = [];
+  local $self->{fails} = [];    ## no critic (Variables::ProhibitLocalVars)
   my %counts;
-  local $self->{counts} = \%counts;
+  local $self->{counts} = \%counts;    ## no critic (Variables::ProhibitLocalVars)
+
   $document->index_locations;
   my $rval = $self->$orig( $document, @rest );
 
