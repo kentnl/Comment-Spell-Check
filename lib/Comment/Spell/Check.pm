@@ -10,7 +10,7 @@ our $VERSION = '0.001000';
 
 our $AUTHORITY = 'cpan:KENTNL'; # AUTHORITY
 
-use Moo qw( has extends );
+use Moo qw( has extends around );
 use Carp qw( croak carp );
 use Devel::CheckBin qw( can_run );
 use IPC::Run qw( run timeout );
@@ -58,7 +58,7 @@ sub _spell_text {
   my ( $self, $text ) = @_;
   my @badwords;
   my @command = @{ $self->spell_command };
-  local $@;
+  local $@ = undef;
   my $ok = eval {
     my ( $results, $errors );
     run \@command, \$text, \$results, \$errors, timeout(10);
