@@ -26,10 +26,14 @@ has '_spell_command_base_args' => ( is => 'ro', lazy => 1, builder => '_build_sp
 has '_spell_command_all_args'  => ( is => 'ro', lazy => 1, builder => '_build_spell_command_all_args' );
 
 sub _build_spell_command_exec {
-  for my $candidate (qw( spell aspell ispell hunspell )) {
-    return $candidate if can_run($candidate);
+  my @candidates = (qw( spell aspell ispell hunspell ));
+  for my $candidate (@candidates) {
+    return $candidate
+      if can_run($candidate);
   }
-  croak 'Cant determine a spell checker automatically';
+  return croak <<"EOF";
+Cant determine a spell checker automatically. Make sure one of: @candidates are installed or configure manually.
+EOF
 }
 
 sub _build_spell_command_base_args {
