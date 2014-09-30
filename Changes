@@ -1,6 +1,8 @@
 Release history for Comment-Spell-Check
 
 {{$NEXT}}
+
+0.001001 2014-09-30T02:50:57Z
  [Tests]
  - Report command to be invoked.
 
