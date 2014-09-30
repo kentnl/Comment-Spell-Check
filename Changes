@@ -1,5 +1,7 @@
 Release history for Comment-Spell-Check
 
+0.001002 2014-09-30T02:51:40Z
+
 0.001001 2014-09-30T02:50:57Z
  [Tests]
  - Report command to be invoked.
