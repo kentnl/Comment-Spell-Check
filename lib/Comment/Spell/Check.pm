@@ -50,7 +50,7 @@ sub _run_spell {
 sub _can_spell {
   my ($name) = @_;
   return unless my $bin = can_run($name);
-  my ( $ok, $words, $err ) = _run_spell( [ $bin, @{ $arg_defaults->{$name} || [] } ], 'iamnotaword' );
+  my ( $ok, $words, ) = _run_spell( [ $bin, @{ $arg_defaults->{$name} || [] } ], 'iamnotaword' );
   return unless $ok;
   return unless @{$words};
   return unless 'iamnotaword' eq $words->[0];
