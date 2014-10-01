@@ -1,6 +1,8 @@
 Release history for Comment-Spell-Check
 
-0.001002 2014-09-30T02:51:50Z
+0.001002 2014-10-01T13:23:27Z
+ [Internals]
+ - Make sure the auto-selected spell checker can in fact spell check words before finalising the selection.
 
 0.001001 2014-09-30T02:50:57Z
  [Tests]
