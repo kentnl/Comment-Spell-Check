@@ -25,11 +25,42 @@ has 'spell_command_args'       => ( is => 'ro', lazy => 1, default => sub { [] }
 has '_spell_command_base_args' => ( is => 'ro', lazy => 1, builder => '_build_spell_command_base_args' );
 has '_spell_command_all_args'  => ( is => 'ro', lazy => 1, builder => '_build_spell_command_all_args' );
 
+my $arg_defaults = {
+  'spell'    => [],
+  'aspell'   => [ 'list', '-l', 'en', '-p', File::Spec->devnull, ],
+  'ispell'   => [ '-l', ],
+  'hunspell' => [ '-l', ],
+};
+
+sub _run_spell {
+  my ( $command, $words ) = @_;
+  my @badwords;
+  local $@ = undef;
+  my $ok = eval {
+    my ( $results, $errors );
+    run $command, \$words, \$results, \$errors, timeout(10);
+    @badwords = split /\n/msx, $results;
+    croak 'spellchecker had errors: ' . $errors if length $errors;
+    1;
+  };
+  chomp for @badwords;
+  return ( $ok, \@badwords, $@ );
+}
+
+sub _can_spell {
+  my ($name) = @_;
+  return unless my $bin = can_run($name);
+  my ( $ok, $words, ) = _run_spell( [ $bin, @{ $arg_defaults->{$name} || [] } ], 'iamnotaword' );
+  return unless $ok;
+  return unless @{$words};
+  return unless 'iamnotaword' eq $words->[0];
+  return $bin;
+}
+
 sub _build_spell_command_exec {
   my @candidates = (qw( spell aspell ispell hunspell ));
   for my $candidate (@candidates) {
-    return $candidate
-      if can_run($candidate);
+    return $candidate if _can_spell($candidate);
   }
   return croak <<"EOF";
 Cant determine a spell checker automatically. Make sure one of: @candidates are installed or configure manually.
@@ -37,15 +68,9 @@ EOF
 }
 
 sub _build_spell_command_base_args {
-  my ($self)   = @_;
-  my $cmd      = $self->spell_command_exec;
-  my $defaults = {
-    'spell'    => [],
-    'aspell'   => [ 'list', '-l', 'en', '-p', File::Spec->devnull, ],
-    'ispell'   => [ '-l', ],
-    'hunspell' => [ '-l', ],
-  };
-  return ( $defaults->{$cmd} || [] );
+  my ($self) = @_;
+  my $cmd = $self->spell_command_exec;
+  return ( $arg_defaults->{$cmd} || [] );
 }
 
 sub _build_spell_command_all_args {
@@ -55,26 +80,17 @@ sub _build_spell_command_all_args {
 
 sub _build_spell_command {
   my ($self) = @_;
-  return [ $self->spell_command_exec, @{ $self->_spell_command_all_args } ];
+  return [ can_run( $self->spell_command_exec ), @{ $self->_spell_command_all_args } ];
 }
 
 sub _spell_text {
   my ( $self, $text ) = @_;
-  my @badwords;
   my @command = @{ $self->spell_command };
-  local $@ = undef;
-  my $ok = eval {
-    my ( $results, $errors );
-    run \@command, \$text, \$results, \$errors, timeout(10);
-    @badwords = split /\n/msx, $results;
-    croak 'spellchecker had errors: ' . $errors if length $errors;
-    1;
-  };
+  my ( $ok, $words, $err ) = _run_spell( \@command, $text );
   if ( not $ok ) {
-    carp $@;
+    carp $err;
   }
-  chomp for @badwords;
-  return @badwords;
+  return @{$words};
 }
 
 around 'parse_from_document' => sub {
