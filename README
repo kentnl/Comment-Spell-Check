@@ -3,7 +3,7 @@ NAME
     spell checker.
 
 VERSION
-    version 0.001001
+    version 0.001002
 
 OVERVIEW
     This module is similar to Test::Spelling and Pod::Spell, except it uses
