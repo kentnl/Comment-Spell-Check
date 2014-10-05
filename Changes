@@ -1,6 +1,8 @@
 Release history for Comment-Spell-Check
 
 {{$NEXT}}
+
+0.002000 2014-10-05T18:05:33Z 12320c6
  [00 Major]
  - Now paragraph oriented instead of line oriented.
  - Pod::Wordlist application now happens **after** passing to your spell checker.
