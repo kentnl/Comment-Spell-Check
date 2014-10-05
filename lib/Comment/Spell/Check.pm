@@ -98,7 +98,7 @@ around 'parse_from_document' => sub {
   local $self->{fails} = [];    ## no critic (Variables::ProhibitLocalVars)
   my %counts;
   local $self->{counts}     = \%counts;    ## no critic (Variables::ProhibitLocalVars)
-  local $self->{line_cache} = [];
+  local $self->{line_cache} = [];          ## no critic (Variables::ProhibitLocalVars)
 
   $document->index_locations;
   $self->$orig( $document, @rest );
@@ -122,7 +122,7 @@ around 'parse_from_document' => sub {
 };
 
 sub _report_badwords {
-  my ( $self, $start_line, $stop_line, @badwords ) = @_;
+  my ( $self, $start_line, $stop_line, @badwords ) = @_;    ## no critic (Variables::ProhibitUnusedVarsStricter)
   my %counts;
   $counts{$_}++ for @badwords;
   $self->{counts}->{$_}++ for @badwords;
@@ -133,7 +133,7 @@ sub _report_badwords {
   push @{ $self->{fails} }, $fail;
   my $label = sprintf q[line %6s: ], q[#] . $start_line;
   my $indent = q[ ] x 13;
-  local $Text::Wrap::huge = 'overflow';    ## no critic (Variables::ProhibitPackageVars)
+  local $Text::Wrap::huge = 'overflow';                     ## no critic (Variables::ProhibitPackageVars)
   my @printwords;
 
   for my $key ( sort keys %counts ) {
@@ -145,12 +145,13 @@ sub _report_badwords {
   }
   $self->_print_output( wrap( $label, $indent, join q[ ], @printwords ) );
   $self->_print_output(qq[\n]);
+  return;
 }
 
 sub _process_line_cache {
   my ($self) = @_;
   my $text = join qq[\n], map { $_->[1] } @{ $self->{line_cache} };
-  my (@badwords) = split / /m, $self->stopwords->strip_stopwords( join q[ ], $self->_spell_text($text) );
+  my (@badwords) = split / /sxm, $self->stopwords->strip_stopwords( join q[ ], $self->_spell_text($text) );
   my $start      = $self->{line_cache}->[0]->[0];
   my $stop       = $self->{line_cache}->[-1]->[0];
 
@@ -173,6 +174,7 @@ sub _push_line_cache {
     $self->_process_line_cache;
   }
   push @{ $self->{line_cache} }, [ $line, $text ];
+  return;
 }
 
 sub _handle_comment {
