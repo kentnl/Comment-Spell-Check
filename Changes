@@ -1,5 +1,16 @@
 Release history for Comment-Spell-Check
 
+0.002000 2014-10-05T18:05:33Z 12320c6
+ [00 Major]
+ - Now paragraph oriented instead of line oriented.
+ - Pod::Wordlist application now happens **after** passing to your spell checker.
+ - these changes intended to improve behaviour of full-grammar based checkers like hunspell which may automatically
+   filter out words based on context, which eliminating stopwords can prove detrimental to.
+
+ [Dependencies::Stats]
+ - Dependencies changed since 0.001002, see misc/*.deps* for details
+ - develop: +2 ↑1 (suggests: ↑1)
+
 0.001002 2014-10-01T13:23:27Z
  [Internals]
  - Make sure the auto-selected spell checker can in fact spell check words before finalising the selection.
