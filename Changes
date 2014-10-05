@@ -1,6 +1,9 @@
 Release history for Comment-Spell-Check
 
 {{$NEXT}}
+ [Dependencies::Stats]
+ - Dependencies changed since 0.001002, see misc/*.deps* for details
+ - develop: +2 ↑1 (suggests: ↑1)
 
 0.001002 2014-10-01T13:23:27Z
  [Internals]
