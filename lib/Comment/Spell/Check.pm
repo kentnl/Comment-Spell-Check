@@ -4,7 +4,7 @@ use warnings;
 
 package Comment::Spell::Check;
 
-our $VERSION = '0.001003';
+our $VERSION = '0.002000';
 
 # ABSTRACT: Check words from Comment::Spell vs a system spell checker.
 
@@ -97,10 +97,12 @@ around 'parse_from_document' => sub {
   my ( $orig, $self, $document, @rest ) = @_;
   local $self->{fails} = [];    ## no critic (Variables::ProhibitLocalVars)
   my %counts;
-  local $self->{counts} = \%counts;    ## no critic (Variables::ProhibitLocalVars)
+  local $self->{counts}     = \%counts;    ## no critic (Variables::ProhibitLocalVars)
+  local $self->{line_cache} = [];          ## no critic (Variables::ProhibitLocalVars)
 
   $document->index_locations;
   $self->$orig( $document, @rest );
+  $self->_process_line_cache() if @{ $self->{line_cache} };
 
   if ( keys %counts ) {
 
@@ -119,22 +121,19 @@ around 'parse_from_document' => sub {
   return { fails => $self->{fails}, counts => $self->{counts} };
 };
 
-sub _handle_comment {
-  my ( $self, $comment ) = @_;
-  my $comment_text = $self->stopwords->strip_stopwords( $self->_comment_text($comment) );
-  my (@badwords) = $self->_spell_text($comment_text);
-  return unless @badwords;
+sub _report_badwords {
+  my ( $self, $start_line, $stop_line, @badwords ) = @_;    ## no critic (Variables::ProhibitUnusedVarsStricter)
   my %counts;
   $counts{$_}++ for @badwords;
   $self->{counts}->{$_}++ for @badwords;
   my $fail = {
-    line   => $comment->line_number,
+    line   => $start_line,
     counts => \%counts,
   };
   push @{ $self->{fails} }, $fail;
-  my $label = sprintf q[line %6s: ], q[#] . $comment->line_number;
+  my $label = sprintf q[line %6s: ], q[#] . $start_line;
   my $indent = q[ ] x 13;
-  local $Text::Wrap::huge = 'overflow';    ## no critic (Variables::ProhibitPackageVars)
+  local $Text::Wrap::huge = 'overflow';                     ## no critic (Variables::ProhibitPackageVars)
   my @printwords;
 
   for my $key ( sort keys %counts ) {
@@ -146,6 +145,41 @@ sub _handle_comment {
   }
   $self->_print_output( wrap( $label, $indent, join q[ ], @printwords ) );
   $self->_print_output(qq[\n]);
+  return;
+}
+
+sub _process_line_cache {
+  my ($self) = @_;
+  my $text = join qq[\n], map { $_->[1] } @{ $self->{line_cache} };
+  my (@badwords) = split /[ ]/sxm, $self->stopwords->strip_stopwords( join q[ ], $self->_spell_text($text) );
+  my $start      = $self->{line_cache}->[0]->[0];
+  my $stop       = $self->{line_cache}->[-1]->[0];
+
+  @{ $self->{line_cache} } = ();
+
+  return unless @badwords;
+  $self->_report_badwords( $start, $stop, @badwords );
+  return;
+}
+
+sub _push_line_cache {
+  my ( $self, $line, $text ) = @_;
+  if ( not @{ $self->{line_cache} } ) {
+    push @{ $self->{line_cache} }, [ $line, $text ];
+    return;
+  }
+
+  # If there is any gap between lines, consider it a new paragraph.
+  if ( ( $line - $self->{line_cache}->[-1]->[0] ) > 1 ) {
+    $self->_process_line_cache;
+  }
+  push @{ $self->{line_cache} }, [ $line, $text ];
+  return;
+}
+
+sub _handle_comment {
+  my ( $self, $comment ) = @_;
+  $self->_push_line_cache( $comment->line_number, $self->_comment_text($comment) );
   return;
 }
 
