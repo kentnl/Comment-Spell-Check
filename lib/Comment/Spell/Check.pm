@@ -4,7 +4,7 @@ use warnings;
 
 package Comment::Spell::Check;
 
-our $VERSION = '0.002000';
+our $VERSION = '0.002001';
 
 # ABSTRACT: Check words from Comment::Spell vs a system spell checker.
 
@@ -199,7 +199,7 @@ Comment::Spell::Check - Check words from Comment::Spell vs a system spell checke
 
 =head1 VERSION
 
-version 0.002000
+version 0.002001
 
 =head1 OVERVIEW
 
