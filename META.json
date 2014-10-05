@@ -112,7 +112,7 @@
    "provides" : {
       "Comment::Spell::Check" : {
          "file" : "lib/Comment/Spell/Check.pm",
-         "version" : "0.001003"
+         "version" : "0.002000"
       }
    },
    "release_status" : "stable",
@@ -127,7 +127,7 @@
          "web" : "https://github.com/kentnl/Comment-Spell-Check"
       }
    },
-   "version" : "0.001003",
+   "version" : "0.002000",
    "x_BuiltWith" : {
       "modules" : {
          "CPAN::Meta" : "2.142690",
@@ -640,7 +640,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "0.001003-source",
+                  "tag" : "0.002000-source",
                   "tag_format" : "%v-source",
                   "tag_message" : "v%v",
                   "time_zone" : "local"
@@ -711,7 +711,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : "releases",
                   "signed" : 0,
-                  "tag" : "0.001003",
+                  "tag" : "0.002000",
                   "tag_format" : "%v",
                   "tag_message" : "v%v",
                   "time_zone" : "local"
