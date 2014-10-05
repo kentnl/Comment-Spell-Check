@@ -151,7 +151,7 @@ sub _report_badwords {
 sub _process_line_cache {
   my ($self) = @_;
   my $text = join qq[\n], map { $_->[1] } @{ $self->{line_cache} };
-  my (@badwords) = split / /sxm, $self->stopwords->strip_stopwords( join q[ ], $self->_spell_text($text) );
+  my (@badwords) = split /[ ]/sxm, $self->stopwords->strip_stopwords( join q[ ], $self->_spell_text($text) );
   my $start      = $self->{line_cache}->[0]->[0];
   my $stop       = $self->{line_cache}->[-1]->[0];
 
