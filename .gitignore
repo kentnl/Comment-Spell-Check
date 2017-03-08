@@ -1,2 +1,3 @@
-.build
-Comment-Spell-Check-*
+/.build
+/Comment-Spell-Check-*
+/tmp/
