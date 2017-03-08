@@ -18,6 +18,7 @@ eval { $check->spell_command; 1 } or do {
   plan skip_all => "No automatic spell checker detection supported: $@";
   exit;
 };
+plan tests => 2;
 diag( "Using " . $check->spell_command_exec . " for spelling" );
 diag( ">", join q[ ], @{ $check->spell_command } );
 my $out;
@@ -30,6 +31,3 @@ note explain $data;
 
 cmp_ok( $data->{counts}->{abstraktion}, '==', 4 );
 cmp_ok( $data->{counts}->{hmubug},      '==', 2 );
-
-done_testing;
-
