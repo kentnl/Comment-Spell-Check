@@ -4,7 +4,7 @@ use warnings;
 
 package Comment::Spell::Check;
 
-our $VERSION = '0.002000';
+our $VERSION = '0.002001';
 
 # ABSTRACT: Check words from Comment::Spell vs a system spell checker.
 
@@ -199,7 +199,7 @@ Comment::Spell::Check - Check words from Comment::Spell vs a system spell checke
 
 =head1 VERSION
 
-version 0.002000
+version 0.002001
 
 =head1 OVERVIEW
 
@@ -280,7 +280,7 @@ Kent Fredric <kentnl@cpan.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is copyright (c) 2014 by Kent Fredric <kentfredric@gmail.com>.
+This software is copyright (c) 2017 by Kent Fredric <kentfredric@gmail.com>.
 
 This is free software; you can redistribute it and/or modify it under
 the same terms as the Perl 5 programming language system itself.

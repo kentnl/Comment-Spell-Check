@@ -1,92 +1,28 @@
-NAME
-    Comment::Spell::Check - Check words from Comment::Spell vs a system
-    spell checker.
+Comment::Spell::Check
 
-VERSION
-    version 0.002000
 
-OVERVIEW
-    This module is similar to Test::Spelling and Pod::Spell, except it uses
-    Comment::Spell, and is more oriented for use as a library, that could be
-    used to write a test.
 
-    It also does something neither Test::Spelling or Pod::Spell presently
-    can do: report line numbers and per-line error counts for each source
-    file read.
+INSTALLATION
 
-      # Spelling report to STDOUT by default
-      perl -MComment::Spell::Check -E'Comment::Spell::Check->new->parse_from_file(q[Foo.pm])'
+This is a Perl module distribution. It should be installed with whichever
+tool you use to manage your installation of Perl, e.g. any of
 
-      # Advanced Usage
+  cpanm .
+  cpan  .
+  cpanp -i .
 
-      my $speller = Comment::Spell::Check->new(
-        spell_command_exec => 'aspell'  # override auto-detected default spelling engine
-        spell_command_args => [ '--lang=en_GB' ], # pass additional commands to spell checker
-      );
+Consult http://www.cpan.org/modules/INSTALL.html for further instruction.
+Should you wish to install this module manually, the procedure is
 
-      my $buf;
-      $speller->set_output_string($buf);
-      my $result = $speller->parse_from_file("path/to/File.pm");
-      # $buf now contains report
-      # $result contains structured data that could be useful
-      # Example:
-      # {
-      #   'counts' => {
-      #     'abstraktion' => 4,
-      #     'bsaic' => 1,
-      #     'hmubug' => 2,
-      #     'incpetion' => 1,
-      #     'kepe' => 1,
-      #     'ssshtuff' => 1,
-      #     'thsi' => 1,
-      #     'tset' => 1,
-      #     'voreflow' => 1,
-      #     'warppying' => 1,
-      #     'wrods' => 1
-      #   },
-      #   'fails' => [
-      #     {
-      #       'counts' => {
-      #         'abstraktion' => 1
-      #       },
-      #       'line' => 8
-      #     },
-      #     {
-      #       'counts' => {
-      #         'abstraktion' => 2
-      #       },
-      #       'line' => 9
-      #     },
-      #     {
-      #       'counts' => {
-      #         'abstraktion' => 1,
-      #         'bsaic' => 1,
-      #         'hmubug' => 2,
-      #         'incpetion' => 1,
-      #         'kepe' => 1,
-      #         'ssshtuff' => 1,
-      #         'thsi' => 1,
-      #         'tset' => 1,
-      #         'voreflow' => 1,
-      #         'warppying' => 1,
-      #         'wrods' => 1
-      #       },
-      #       'line' => 10
-      #     }
-      #   ]
-      # }
-
-    I may eventually work out how to bolt line number parsing into
-    Pod::Spell family, but at present its hard due to the Pod::Parser
-    underpinnings.
-
-AUTHOR
-    Kent Fredric <kentnl@cpan.org>
+  perl Makefile.PL
+  make
+  make test
+  make install
 
 COPYRIGHT AND LICENSE
-    This software is copyright (c) 2014 by Kent Fredric
-    <kentfredric@gmail.com>.
 
-    This is free software; you can redistribute it and/or modify it under
-    the same terms as the Perl 5 programming language system itself.
+This software is copyright (c) 2017 by Kent Fredric
+<kentfredric@gmail.com>.
 
+This is free software; you can redistribute it and/or modify it under
+the same terms as the Perl 5 programming language system itself.
