@@ -14,6 +14,7 @@ dist.ini
 dist.ini.meta
 lib/Comment/Spell/Check.pm
 maint/perlcritic.rc.gen.pl
+maint/travisci.pl
 misc/Changes.deps
 misc/Changes.deps.all
 misc/Changes.deps.dev

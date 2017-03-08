@@ -1,6 +1,6 @@
 Release history for Comment-Spell-Check
 
-0.002001 2017-03-08T14:19:11Z f9520f2
+0.002001 2017-03-08T14:30:07Z b34f930
  - Bugfix: Avoid test failures with -Ddefault_inc_excludes_dot
 
  [Dependencies::Stats]
