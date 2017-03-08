@@ -20,7 +20,7 @@ name: Comment-Spell-Check
 provides:
   Comment::Spell::Check:
     file: lib/Comment/Spell/Check.pm
-    version: '0.002001'
+    version: '0.002002'
 recommends:
   Moo: '1.000008'
 requires:
@@ -38,4 +38,4 @@ resources:
   bugtracker: https://github.com/kentnl/Comment-Spell-Check/issues
   homepage: https://github.com/kentnl/Comment-Spell-Check
   repository: https://github.com/kentnl/Comment-Spell-Check.git
-version: '0.002001'
+version: '0.002002'
